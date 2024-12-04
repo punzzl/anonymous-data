@@ -80,3 +80,5 @@ uis.InputBegan:Connect(function(input, gameProcessed)
         updateGui()
     end
 end)
+
+print("FullReact loaded!")
