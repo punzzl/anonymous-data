@@ -1,49 +1,16 @@
 local remotes = require(game.ReplicatedStorage.RemoteHandler)
-local uis = game:GetService("UserInputService")
-
-local mt = getrawmetatable(game)
-
-local oldNamecall = mt.__namecall
-local enabled = false
 local player = game.Players.LocalPlayer
 
-local function createGui()
-    local screenGui = Instance.new("ScreenGui")
-    screenGui.Name = "ForceOwnershipGui"
-    screenGui.Parent = player:WaitForChild("PlayerGui")
-    
-    local statusBox = Instance.new("Frame", screenGui)
-    statusBox.Size = UDim2.new(0, 25, 0, 25)
-    statusBox.Position = UDim2.new(0, 0, 1, -27)
-    statusBox.BackgroundColor3 = Color3.new(1, 0, 0)
-    statusBox.BorderSizePixel = 0
-    
-    return screenGui, statusBox
-end
-
-local screenGui, statusBox = createGui()
-
-local function updateGui()
-    statusBox.BackgroundColor3 = enabled and Color3.new(0, 1, 0) or Color3.new(1, 0, 0)
-end
-
-player.CharacterAdded:Connect(function()
-    if player:FindFirstChild("PlayerGui"):FindFirstChild("ForceOwnershipGui") then
-        player.PlayerGui.ForceOwnershipGui:Destroy()
-    end
-    screenGui, statusBox = createGui()
-    updateGui()
-end)
+local mt = getrawmetatable(game)
+local oldNamecall = mt.__namecall
 
 local function disableHook()
-    enabled = false
     if mt.__namecall == oldNamecall then return end
 
     print("Disabling FullReact hook...")
     setreadonly(mt, false)
     mt.__namecall = oldNamecall
     setreadonly(mt, true)
-    updateGui()
 end
 
 local function enableHook()
@@ -68,17 +35,33 @@ local function enableHook()
     setreadonly(mt, true)
 end
 
-uis.InputBegan:Connect(function(input, gameProcessed)
-    if gameProcessed then return end
-    if input.UserInputType == Enum.UserInputType.MouseButton3 then
-        enabled = not enabled
-        if enabled then
+local function handleOwnership(ownership)
+    ownership:GetPropertyChangedSignal("Value"):Connect(function()
+        if ownership.Value ~= player then
+            task.wait(.75)
             enableHook()
         else
             disableHook()
         end
-        updateGui()
-    end
-end)
+    end)
+end
 
+local function monitorOwnership()
+    local ball = workspace:FindFirstChild("MainBall")
+    if ball then
+        local ownership = ball:FindFirstChild("NetworkOwner")
+        if ownership then
+            handleOwnership(ownership)
+        end
+    end
+
+    workspace.ChildAdded:Connect(function(child)
+        if child.Name == "MainBall" then
+            local ownership = child:WaitForChild("NetworkOwner")
+            handleOwnership(ownership)
+        end
+    end)
+end
+
+monitorOwnership()
 print("FullReact loaded!")
