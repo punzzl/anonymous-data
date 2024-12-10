@@ -36,7 +36,7 @@ local function enableHook()
 end
 
 local function enable()
-    task.wait(.5)
+    task.wait(.55)
     enableHook()
 end
 
