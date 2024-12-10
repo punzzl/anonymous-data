@@ -1,5 +1,14 @@
 local player = game:GetService("Players").LocalPlayer
 
+local sGui = game:GetService("StarterGui")
+function notify()
+    sGui:SetCore("SendNotification", {
+        Title = "AutoFullTackle";
+        Text = "Loaded!";
+        Duration = .75;
+    })
+end
+
 function setupChar(char)
     if char:FindFirstChild("Dribble") or player.Backpack:FindFirstChild("Dribble") then
         local path = char:FindFirstChild("Dribble") and char.Dribble.test or player.Backpack.Dribble.test
@@ -13,10 +22,10 @@ function setupChar(char)
         end
 
         local old; old = hookfunction(env.AutoStandingTackle, function(...)
-            print("Hooking AutoStandingTackle...")
             return old(true)
         end)
-        print("Tackle React Hook Loaded!")
+
+        notify()
     else
         local connection; connection = player.Backpack.ChildAdded:Connect(function(child)
             if child.Name == "Dribble" then

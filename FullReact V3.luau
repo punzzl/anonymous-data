@@ -1,13 +1,22 @@
 local remotes = require(game.ReplicatedStorage.RemoteHandler)
 local player = game.Players.LocalPlayer
 
+local sGui = game:GetService("StarterGui")
+function notify()
+    sGui:SetCore("SendNotification", {
+        Title = "FullReact V3";
+        Text = "Loaded!";
+        Duration = .75;
+    })
+end
+
+
 local mt = getrawmetatable(game)
 local oldNamecall = mt.__namecall
 
 local function disableHook()
     if mt.__namecall == oldNamecall then return end
 
-    print("Disabling FullReact hook...")
     setreadonly(mt, false)
     mt.__namecall = oldNamecall
     setreadonly(mt, true)
@@ -16,7 +25,6 @@ end
 local function enableHook()
     if mt.__namecall ~= oldNamecall then return end
 
-    print("Enabling FullReact hook...")
     setreadonly(mt, false)
     mt.__namecall = newcclosure(function(self, ...)
         local method = getnamecallmethod()
@@ -25,7 +33,6 @@ local function enableHook()
         end
 
         if self == remotes.Ownership() and workspace.MainBall.NetworkOwner.Value ~= player then
-            warn("ForceOwnership ejecutado")
             remotes.ForceOwnership():FireServer(select(1, ...), select(2, ...), select(6, ...), select(7, ...), "Tackle")
             disableHook()
         end
@@ -66,7 +73,8 @@ local function monitorOwnership()
             handleOwnership(ownership)
         end
     end)
+
+    notify()
 end
 
 monitorOwnership()
-print("FullReact V3 loaded!")

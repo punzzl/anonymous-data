@@ -6,6 +6,16 @@ local slideRight = keys:WaitForChild("Tackle_SlidingTackleRight").Value
 
 local env;
 
+local sGui = game:GetService("StarterGui")
+function notify()
+    sGui:SetCore("SendNotification", {
+        Title = "SlideFullReact";
+        Text = "Loaded!";
+        Duration = .75;
+    })
+end
+
+
 local userInputService = game:GetService("UserInputService")
 userInputService.InputBegan:Connect(function(input, gameProcessedEvent)
     if not gameProcessedEvent and input.UserInputType == Enum.UserInputType.Keyboard then
@@ -31,10 +41,10 @@ function setupChar(char)
         end
 
         local old; old = hookfunction(env.CheckBallInfront, function(...)
-            print("Hooking CheckBallInfront...")
             return false
         end)
-        print("Slide hook loaded!")
+
+        notify()
     else
         local connection; connection = player.Backpack.ChildAdded:Connect(function(child)
             if child.Name == "Dribble" then
