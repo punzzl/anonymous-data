@@ -38,7 +38,8 @@ end
 local function handleOwnership(ownership)
     ownership:GetPropertyChangedSignal("Value"):Connect(function()
         if ownership.Value ~= player then
-            task.wait(.75)
+            disableHook()
+            task.wait(.5)
             enableHook()
         else
             disableHook()
@@ -64,4 +65,4 @@ local function monitorOwnership()
 end
 
 monitorOwnership()
-print("FullReact loaded!")
+print("FullReact V2 loaded!")

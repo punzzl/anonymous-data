@@ -35,11 +35,16 @@ local function enableHook()
     setreadonly(mt, true)
 end
 
+local function enable()
+    task.wait(.5)
+    enableHook()
+end
+
 local function handleOwnership(ownership)
     ownership:GetPropertyChangedSignal("Value"):Connect(function()
         if ownership.Value ~= player then
-            task.wait(.75)
-            enableHook()
+            disableHook()
+            task.spawn(enable)
         else
             disableHook()
         end
@@ -64,4 +69,4 @@ local function monitorOwnership()
 end
 
 monitorOwnership()
-print("FullReact loaded!")
+print("FullReact V3 loaded!")
