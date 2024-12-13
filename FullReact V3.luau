@@ -33,6 +33,7 @@ local function enableHook()
         end
 
         if self == remotes.Ownership() and workspace.MainBall.NetworkOwner.Value ~= player then
+            task.wait(.1)
             remotes.ForceOwnership():FireServer(select(1, ...), select(2, ...), select(6, ...), select(7, ...), "Tackle")
             disableHook()
         end
