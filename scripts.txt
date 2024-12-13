@@ -1,4 +1,8 @@
 loadstring(game:HttpGet("https://raw.githubusercontent.com/punzzl/anonymous-data/refs/heads/main/AutoFullTackle.luau"))()
+task.wait(1)
 loadstring(game:HttpGet("https://raw.githubusercontent.com/punzzl/anonymous-data/refs/heads/main/SlideFullReact.luau"))()
+task.wait(1)
 loadstring(game:HttpGet("https://raw.githubusercontent.com/punzzl/anonymous-data/refs/heads/main/AntiFoul.luau"))()
+task.wait(1)
 loadstring(game:HttpGet("https://raw.githubusercontent.com/punzzl/anonymous-data/refs/heads/main/FullReact%20V3.luau"))()
+task.wait(1)

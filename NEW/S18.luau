@@ -4586,7 +4586,6 @@ function AutoSharpTurn(_)
 								SaveCheck(Ball, v594)
 								if v_u_55 == true then
 									isBallTeleport()
-									
 									v_u_55 = false
 									Ball.CFrame = v_u_3.Character.HitBox.CFrame:toWorldSpace(CFrame.new(0, 0, -2))
 								end
@@ -13736,7 +13735,7 @@ function AutoStandingTackle(p1365)
 						end
 						local v1395
 						if Ball.Velocity.Magnitude > 50 and v1371 == "None" then
-v1395 = 							v1373 + 0.3
+							v1395 = v1373 + 0.3
 						else
 							v1395 = v1373
 						end
@@ -14198,8 +14197,7 @@ function SlidingTackleRightLeg(p1433)
 				return
 			else
 				local v1437 = CheckOpponentDistanceFromBall(30, -0.87)
-				local 
-				 = CheckBallInfront(v1437, 15, 35, true)
+				local v1438 = CheckBallInfront(v1437, 15, 35, true)
 				if SkillUsed == "MouseClickTackle" then
 					if v1438 == false then
 						v_u_52 = "Right"
