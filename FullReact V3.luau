@@ -73,8 +73,7 @@ local function monitorOwnership()
             handleOwnership(ownership)
         end
     end)
-
-    notify()
 end
 
 monitorOwnership()
+notify()
